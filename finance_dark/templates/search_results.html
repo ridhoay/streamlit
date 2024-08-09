@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Search
+{% endblock %}
+
+{% block main %}
+    <div class="container mt-5">
+        <div class="card mt-3 bg-dark">
+            <div class="card-body">
+                <!-- search_results.html -->
+                <h3 class="mt-4 text-white">Search Results</h3>
+                {% if search_results %}
+                    <table class="table text-white">
+                        <thead>
+                            <tr>
+                                <th class="text-start" style="max-width: 300px;">Job title</th>
+                                <th class="text-end" style="max-width: 250px;">Company name</th>
+                                <th class="text-end" style="max-width: 150px;">Job type</th>
+                                <th class="text-end">Job location</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for result in search_results %}
+                                <tr>
+                                    <td class="text-start" style="max-width: 300px;">{{ result.title }}</td>
+                                    <td class="text-end" style="max-width: 250px;">{{ result.company }}</td>
+                                    <td class="text-end" style="max-width: 150px;">{{ result.type }}</td>
+                                    <td class="text-end">{{ result.location }}</td>
+                                    <td class="text-end">
+                                        <a href="/job-details/{{ result.id }}">View Details</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p class="text-white">We've not found what you're looking for.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

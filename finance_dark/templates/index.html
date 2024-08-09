@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+    <div class="container mt-5">
+        <h2 class="text-center">Find The Perfect Job!</h2>
+        <div class="card mt-3 bg-dark">
+            <div class="card-body">
+                <form action="/search" method="post">
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="name">Name</label>
+                            <input autocomplete="off" autofocus class="form-control" id="name" name="name" placeholder="Job keyword" type="text">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="location">Location</label>
+                            <input autocomplete="off" class="form-control" id="location" name="location" placeholder="Job location" type="text">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="job_type">Job Type</label>
+                            <input autocomplete="off" class="form-control" id="job_type" name="job_type" placeholder="Job type" type="text">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="company">Company Name</label>
+                            <input autocomplete="off" class="form-control" id="company" name="company" placeholder="Company name" type="text">
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <button class="btn btn-primary" type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

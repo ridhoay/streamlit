@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}
+Tracked Items
+{% endblock %}
+
+{% block content %}
+<h1>Tracked Items</h1>
+
+{% if user.is_authenticated %}
+Logged in user: {{ user }}
+<br/><br/>
+<form method="post" action="{% url 'update_all_prices' %}">
+    {% csrf_token %}
+    <button type="submit">Update All Prices</button>
+</form>
+<br/><br/>
+<table>
+    <tr>
+        <th style="padding-right: 20px;">Item Name</th>
+        <th style="padding-right: 20px;">Price</th>
+        <th style="padding-right: 20px;">Date</th>
+        <th style="padding-right: 20px;">Link</th>
+    </tr>
+    {% for item in tracked_items %}
+    <tr>
+        <td style="padding-right: 20px;">{{ item.name }}</td>
+        <td style="padding-right: 20px;">{{ item.price }}</td>
+        <td style="padding-right: 20px;">{{ item.date }}</td>
+        <td style="padding-right: 20px;"><a href="{{ item.link }}" target="_blank">View Item</a></td>
+        <td style="padding-right: 20px;">
+            <form method="post" action="{% url 'delete_item' item.id %}">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+        <td style="padding-right: 20px;">
+            <a href="{% url 'price_history' item.id %}">
+                <button type="button">Price History</button>
+            </a>
+        </td>
+        <td style="padding-right: 20px;">
+            <form method="post" action="{% url 'update_price' item.id %}">
+                {% csrf_token %}
+                <button type="submit">Update Price</button>
+            </form>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="6">No items tracked yet.</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% else %}
+<p>You need to be logged in to view this page.</p>
+{% endif %}
+
+<br>
+<a href="{% url 'home' %}">
+    <button>Search Other Items</button>
+</a>
+{% endblock %}

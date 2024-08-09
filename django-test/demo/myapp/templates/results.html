@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}
+Results
+{% endblock %}
+
+{% block content %}
+<h1>Search Results</h1>
+<table>
+    <thead>
+        <tr>
+            <th style="padding-right: 20px;">Name</th>
+            <th style="padding-right: 20px;">Price</th>
+            <th style="padding-right: 20px;">Items Sold</th>
+            <th style="padding-right: 20px;">Details</th>
+            {% if user.is_authenticated %}
+            <th style="padding-right: 20px;">Track</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for name, details in items_dict %}
+        <tr>
+            <td style="padding-right: 20px;">{{ name }}</td>
+            <td style="padding-right: 20px;">{{ details.price }}</td>
+            <td style="padding-right: 20px;">{{ details.items_sold }}</td>
+            <td style="padding-right: 20px;"><a href="{{ details.link }}" target="_blank">View Item</a></td>
+            {% if user.is_authenticated %}
+            <td style="padding-right: 20px;">
+                <form action="{% url 'track_price' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="name" value="{{ name }}">
+                    <input type="hidden" name="price" value="{{ details.price }}">
+                    <input type="hidden" name="items_sold" value="{{ details.items_sold }}">
+                    <input type="hidden" name="url" value="{{ details.url }}">
+                    <input type="hidden" name="link" value="{{ details.link }}">
+                    <button type="submit" class="track-button">Track</button>
+                </form>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br>
+<a href="{% url 'home' %}">
+    <button>Search Other Items</button>
+</a>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}
+Price History
+{% endblock %}
+
+{% block content %}
+<h4>Price History for {{ item_name }}</h4>
+<canvas id="priceChart" width="400" height="200"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('priceChart').getContext('2d');
+    const priceChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: JSON.parse('{{ dates|escapejs }}'),
+            datasets: [{
+                label: 'Price',
+                data: JSON.parse('{{ prices|escapejs }}'),
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                fill: false,
+                tension: 0.1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Price (Rp)'
+                    }
+                }
+            }
+        }
+    });
+</script>
+<br>
+<a href="{% url 'tracked_items_view' %}">
+    <button>Back to Tracked Items</button>
+</a>
+{% endblock %}
